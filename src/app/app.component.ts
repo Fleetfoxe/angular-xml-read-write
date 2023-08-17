@@ -7,8 +7,12 @@ import * as xml2js from 'xml2js';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
+
+
 export class AppComponent {
   public xmlItems: any;
+  public idToFind: any;
+  public targetText: any;
 
   constructor(private http:HttpClient) {
 
@@ -19,7 +23,7 @@ export class AppComponent {
   loadXML()
   {
     /*Read Data*/
-    this.http.get('assets/users.xml',
+    this.http.get('assets/sma_gentext.xml',
       {
         headers: new HttpHeaders()
           .set('Content-Type', 'text/xml')
@@ -37,8 +41,11 @@ export class AppComponent {
     /*Read Data*/
   }
 
-  //store xml data into array variable
-  parseXML(data: any) {
+
+
+  //store xml data into a variable
+  parseXML = (data: any) => {
+    var target: string;
     return new Promise(resolve => {
       var k: string | number,
         arr :any[] = [],
@@ -48,18 +55,20 @@ export class AppComponent {
             explicitArray: true
           });
       parser.parseString(data, function (err:any, result:any) {
-        var obj = result.Employee;
-        for (k in obj.emp) {
-          var item = obj.emp[k];
-          arr.push({
-            id: item.id[0],
-            name: item.name[0],
-            email: item.email[0],
-
-          });
-        }
+        var list :[] = result.root.file[0].body[0][`trans-unit`];
+        //console.log(list)
+        list.forEach((element) => {
+          var metaData :any = (element[`$`])
+          var valueToFind :string = element[`target`][0]
+          if (metaData.id == 42007) {
+            console.log("Loop found id 42007")
+            console.log("Value of target is: " + valueToFind);
+            target = valueToFind
+          }
+        });
         resolve(arr);
       });
+      this.targetText = target;
     });
   }
 }

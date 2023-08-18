@@ -13,14 +13,14 @@ import { DomSanitizer } from '@angular/platform-browser';
 
 export class AppComponent implements OnInit {
   public xmlItems: any;
-  public idToFind: any;
   public targetText: any;
   fileUrl: any;
   dataForFile: any;
+  showDownloadButton: boolean = false;
 
   constructor(private http:HttpClient, private sanitizer: DomSanitizer) {
 
-    this.loadXML();
+    //this.loadXML();
   }
   ngOnInit() {
     this.dataForFile = 'some text';
@@ -30,8 +30,7 @@ export class AppComponent implements OnInit {
   }
 
   //getting data function
-  loadXML()
-  {
+  loadXML()   {
     /*Read Data*/
     this.http.get('assets/sma_gentext.xml',
       {
@@ -48,14 +47,17 @@ export class AppComponent implements OnInit {
             this.xmlItems = data;
           });
       });
-    /*Read Data*/
+
   }
 
-
+  importDataFromXml() {
+    console.log("button clicked")
+    this.loadXML()
+  }
 
   //store xml data into a variable
   parseXML = (data: any) => {
-    var target: string;
+    var valueToFind: string;
     return new Promise(resolve => {
       var k: string | number,
         arr :any[] = [],
@@ -69,20 +71,21 @@ export class AppComponent implements OnInit {
         //console.log(list)
         list.forEach((element) => {
           var metaData :any = (element[`$`])
-          var valueToFind :string = element[`target`][0]
           if (metaData.id == 42007) {
-            console.log("Loop found id 42007")
+            valueToFind = element[`target`][0]
+            console.log("Found object with id: " + metaData.id)
             console.log("Value of target is: " + valueToFind);
-            target = valueToFind
           }
         });
         resolve(arr);
       });
-      this.targetText = target;
+      this.targetText = valueToFind;
+      this.updateFileData();
+      this.showDownloadButton = true;
     });
   }
 
-  updateFile() {
+  updateFileData() {
     this.dataForFile = this.targetText;
     const blob = new Blob([this.dataForFile], { type: 'application/octet-stream' });
 

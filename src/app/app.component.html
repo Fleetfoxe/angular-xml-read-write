@@ -1,12 +1,22 @@
 
 
-<h1>HEJ</h1>
+<h1>XML importer/exporter</h1>
 
-<h2>Target: {{targetText}}</h2>
 
-<button (click)="updateFile()">Update file</button>
+<button (click)="importDataFromXml()">Import data from XML file</button>
+<h2>Value: {{ targetText }}</h2>
+
+<br>
+<br>
+
+
 
 <h2>Save file: </h2>
-<a [href]="fileUrl" download="file.txt">DownloadFile</a>
+
+<div *ngIf="showDownloadButton">
+  <a [href]="fileUrl" download="Value.txt"><button>Download to file</button></a>
+
+</div>
+
 
 <router-outlet></router-outlet>

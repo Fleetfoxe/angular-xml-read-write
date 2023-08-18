@@ -4,5 +4,9 @@
 
 <h2>Target: {{targetText}}</h2>
 
+<button (click)="updateFile()">Update file</button>
+
+<h2>Save file: </h2>
+<a [href]="fileUrl" download="file.txt">DownloadFile</a>
 
 <router-outlet></router-outlet>

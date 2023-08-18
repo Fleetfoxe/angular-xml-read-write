@@ -1,6 +1,8 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { HttpClient,HttpHeaders } from '@angular/common/http';
 import * as xml2js from 'xml2js';
+import { DomSanitizer } from '@angular/platform-browser';
+
 
 @Component({
   selector: 'app-root',
@@ -9,14 +11,22 @@ import * as xml2js from 'xml2js';
 })
 
 
-export class AppComponent {
+export class AppComponent implements OnInit {
   public xmlItems: any;
   public idToFind: any;
   public targetText: any;
+  fileUrl: any;
+  dataForFile: any;
 
-  constructor(private http:HttpClient) {
+  constructor(private http:HttpClient, private sanitizer: DomSanitizer) {
 
     this.loadXML();
+  }
+  ngOnInit() {
+    this.dataForFile = 'some text';
+    const blob = new Blob([this.dataForFile], { type: 'application/octet-stream' });
+
+    this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
   }
 
   //getting data function
@@ -70,5 +80,12 @@ export class AppComponent {
       });
       this.targetText = target;
     });
+  }
+
+  updateFile() {
+    this.dataForFile = this.targetText;
+    const blob = new Blob([this.dataForFile], { type: 'application/octet-stream' });
+
+    this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
   }
 }

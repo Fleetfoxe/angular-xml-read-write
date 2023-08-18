@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import { Component } from '@angular/core';
 import { HttpClient,HttpHeaders } from '@angular/common/http';
 import * as xml2js from 'xml2js';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -11,27 +11,16 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 
 
-export class AppComponent implements OnInit {
-  public xmlItems: any;
-  public idToFind: any;
-  public targetText: any;
+export class AppComponent {
+  targetText: any;
   fileUrl: any;
-  dataForFile: any;
+  showDownloadButton: boolean = false;
 
-  constructor(private http:HttpClient, private sanitizer: DomSanitizer) {
+  constructor(private http:HttpClient, private sanitizer: DomSanitizer) { }
 
-    this.loadXML();
-  }
-  ngOnInit() {
-    this.dataForFile = 'some text';
-    const blob = new Blob([this.dataForFile], { type: 'application/octet-stream' });
 
-    this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
-  }
-
-  //getting data function
-  loadXML()
-  {
+  //Function to get data from XML-file and activate parsing
+  loadXML()   {
     /*Read Data*/
     this.http.get('assets/sma_gentext.xml',
       {
@@ -44,18 +33,13 @@ export class AppComponent implements OnInit {
       })
       .subscribe((data) => {
         this.parseXML(data)
-          .then((data) => {
-            this.xmlItems = data;
+          .then(() => {
           });
       });
-    /*Read Data*/
   }
 
-
-
-  //store xml data into a variable
   parseXML = (data: any) => {
-    var target: string;
+    var valueToFind: string;
     return new Promise(resolve => {
       var k: string | number,
         arr :any[] = [],
@@ -65,27 +49,25 @@ export class AppComponent implements OnInit {
             explicitArray: true
           });
       parser.parseString(data, function (err:any, result:any) {
-        var list :[] = result.root.file[0].body[0][`trans-unit`];
-        //console.log(list)
-        list.forEach((element) => {
+        const listOftransUnits :[] = result.root.file[0].body[0][`trans-unit`];
+        listOftransUnits.forEach((element) => {
           var metaData :any = (element[`$`])
-          var valueToFind :string = element[`target`][0]
           if (metaData.id == 42007) {
-            console.log("Loop found id 42007")
-            console.log("Value of target is: " + valueToFind);
-            target = valueToFind
+            valueToFind = element[`target`][0]
+            //console.log("Found object with id: " + metaData.id)
+            //console.log("Value of target is: " + valueToFind);
           }
         });
         resolve(arr);
       });
-      this.targetText = target;
+      this.targetText = valueToFind;
+      this.updateFileData();
+      this.showDownloadButton = true;
     });
   }
 
-  updateFile() {
-    this.dataForFile = this.targetText;
-    const blob = new Blob([this.dataForFile], { type: 'application/octet-stream' });
-
+  updateFileData() {
+    const blob = new Blob([this.targetText], { type: 'application/octet-stream' });
     this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
   }
 }

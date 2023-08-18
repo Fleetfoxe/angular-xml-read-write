@@ -17,11 +17,12 @@ export class AppComponent {
   showDownloadButton: boolean = false;
   importFileData: any;
   showParseButton: boolean = false;
-
+  searchId: number = 42007;
 
   constructor(private http:HttpClient, private sanitizer: DomSanitizer) { }
 
   parseXML = (data: any) => {
+    var parserSearchId = this.searchId;
     var valueToFind: string;
     return new Promise(resolve => {
       var k: string | number,
@@ -35,7 +36,7 @@ export class AppComponent {
         const listOftransUnits :[] = result.root.file[0].body[0][`trans-unit`];
         listOftransUnits.forEach((element) => {
           var metaData :any = (element[`$`])
-          if (metaData.id == 42007) {
+          if (metaData.id == parserSearchId) {
             valueToFind = element[`target`][0]
           }
         });
@@ -68,7 +69,6 @@ export class AppComponent {
     var reader = new FileReader();
     reader.onload = () => {
       this.importFileData = reader.result;
-      console.log(this.importFileData)
     };
     reader.readAsText(file);
     this.showParseButton = true;

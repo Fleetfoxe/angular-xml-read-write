@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { HttpClient,HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import * as xml2js from 'xml2js';
 import { DomSanitizer } from '@angular/platform-browser';
 
@@ -13,30 +13,13 @@ import { DomSanitizer } from '@angular/platform-browser';
 
 export class AppComponent {
   targetText: any;
-  fileUrl: any;
+  savedFileUrl: any;
   showDownloadButton: boolean = false;
+  importFileData: any;
+  showParseButton: boolean = false;
+
 
   constructor(private http:HttpClient, private sanitizer: DomSanitizer) { }
-
-
-  //Function to get data from XML-file and activate parsing
-  loadXML()   {
-    /*Read Data*/
-    this.http.get('assets/sma_gentext.xml',
-      {
-        headers: new HttpHeaders()
-          .set('Content-Type', 'text/xml')
-          .append('Access-Control-Allow-Methods', 'GET')
-          .append('Access-Control-Allow-Origin', '*')
-          .append('Access-Control-Allow-Headers', "Access-Control-Allow-Headers, Access-Control-Allow-Origin, Access-Control-Request-Method"),
-        responseType: 'text'
-      })
-      .subscribe((data) => {
-        this.parseXML(data)
-          .then(() => {
-          });
-      });
-  }
 
   parseXML = (data: any) => {
     var valueToFind: string;
@@ -54,8 +37,6 @@ export class AppComponent {
           var metaData :any = (element[`$`])
           if (metaData.id == 42007) {
             valueToFind = element[`target`][0]
-            //console.log("Found object with id: " + metaData.id)
-            //console.log("Value of target is: " + valueToFind);
           }
         });
         resolve(arr);
@@ -68,6 +49,33 @@ export class AppComponent {
 
   updateFileData() {
     const blob = new Blob([this.targetText], { type: 'application/octet-stream' });
-    this.fileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
+    this.savedFileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
   }
+
+   selectFile(event:any) {
+    var file: File = event.target.files[0];
+    var fileExtension:string = file.name.substring(file.name.lastIndexOf('.') + 1);
+
+    if (fileExtension !== 'xml') {
+      alert("Wrong filetype");
+      window.location.reload();
+    } else {
+      this.extractText(file);
+    }
+  }
+
+  extractText(file:any) {
+    var reader = new FileReader();
+    reader.onload = () => {
+      this.importFileData = reader.result;
+      console.log(this.importFileData)
+    };
+    reader.readAsText(file);
+    this.showParseButton = true;
+   }
+
+   activateParsing() {
+     this.parseXML(this.importFileData)
+   }
+
 }

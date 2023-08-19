@@ -7,31 +7,25 @@
 
 <br>
 <br>
+<button (click)="showParsing()" [disabled]="!importFileData" >Next</button>
 
 <div *ngIf="showParseButton">
-<p>Enter id for search</p>
+  <p>Enter id for search</p>
   <input type="text" [(ngModel)]="searchId">
   <br>
   <br>
 
   <button (click)="activateParsing()">Search/Parse</button>
-  <h2>Value: {{ targetText }}</h2>
+  <p *ngIf="targetText">Value: {{ targetText }}</p>
 </div>
 
-
 <br>
 <br>
-
-
-
 
 <div *ngIf="showDownloadButton">
-
-  <h2>Save data to file: </h2>
+  <p>Save data to file: </p>
   <a [href]="savedFileUrl" download="Value.txt"><button>Download to file</button></a>
-
 </div>
-
 
 
 <router-outlet></router-outlet>

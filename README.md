@@ -6,7 +6,7 @@
   <h3 align="center">Xml Read/Write</h3>
 
   <p align="center">
-    An awesome app that imports XML data, parses it and saves it to a file!
+    An awesome app that imports and parses data from specific trans-unit XML-files! 
     <br />
   </p>
 </div>
@@ -53,6 +53,10 @@ To get a local copy up and running follow these simple example steps.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+
+## Example trans-unit XML-file
+
+A trans-unit XML-file can be found in the /src/assets folder.
 
 
 ## Contact

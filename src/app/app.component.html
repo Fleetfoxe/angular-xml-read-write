@@ -1,31 +1,31 @@
 
 
 <h1>XML importer/parser</h1>
+<h2>Trans-units</h2>
 
 <input type="file" (change)="selectFile($event)" accept=".xml">
 
 <br>
 <br>
+<button (click)="showParsing()" [disabled]="!importFileData" >Next</button>
 
 <div *ngIf="showParseButton">
-  <button (click)="activateParsing()">Parse data</button>
-  <h2>Value: {{ targetText }}</h2>
+  <p>Enter id for search</p>
+  <input type="text" [(ngModel)]="searchId">
+  <br>
+  <br>
+
+  <button (click)="activateParsing()">Search/Parse</button>
+  <p *ngIf="targetText">Value: {{ targetText }}</p>
 </div>
 
-
 <br>
 <br>
-
-
-
 
 <div *ngIf="showDownloadButton">
-
-  <h2>Save data to file: </h2>
+  <p>Save data to file: </p>
   <a [href]="savedFileUrl" download="Value.txt"><button>Download to file</button></a>
-
 </div>
-
 
 
 <router-outlet></router-outlet>

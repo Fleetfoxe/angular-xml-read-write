@@ -17,11 +17,34 @@ export class AppComponent {
   showDownloadButton: boolean = false;
   importFileData: any;
   showParseButton: boolean = false;
-
+  searchId: number = 42007;
 
   constructor(private http:HttpClient, private sanitizer: DomSanitizer) { }
 
+
+  selectFile(event:any) {
+    var file: File = event.target.files[0];
+    var fileExtension:string = file.name.substring(file.name.lastIndexOf('.') + 1);
+
+    if (fileExtension !== 'xml') {
+      alert("Wrong filetype");
+      window.location.reload();
+    } else {
+      this.extractText(file);
+    }
+  }
+
+  extractText(file:any) {
+    var reader = new FileReader();
+    reader.onload = () => {
+      this.importFileData = reader.result;
+    };
+    reader.readAsText(file);
+    //this.showParseButton = true;
+  }
+
   parseXML = (data: any) => {
+    var parserSearchId = this.searchId;
     var valueToFind: string;
     return new Promise(resolve => {
       var k: string | number,
@@ -32,10 +55,10 @@ export class AppComponent {
             explicitArray: true
           });
       parser.parseString(data, function (err:any, result:any) {
-        const listOftransUnits :[] = result.root.file[0].body[0][`trans-unit`];
-        listOftransUnits.forEach((element) => {
-          var metaData :any = (element[`$`])
-          if (metaData.id == 42007) {
+        const listOfTransunits :[] = result.root.file[0].body[0][`trans-unit`];
+        listOfTransunits.forEach((element) => {
+          const metaData :any = (element[`$`])
+          if (metaData.id == parserSearchId) {
             valueToFind = element[`target`][0]
           }
         });
@@ -52,30 +75,12 @@ export class AppComponent {
     this.savedFileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
   }
 
-   selectFile(event:any) {
-    var file: File = event.target.files[0];
-    var fileExtension:string = file.name.substring(file.name.lastIndexOf('.') + 1);
-
-    if (fileExtension !== 'xml') {
-      alert("Wrong filetype");
-      window.location.reload();
-    } else {
-      this.extractText(file);
-    }
-  }
-
-  extractText(file:any) {
-    var reader = new FileReader();
-    reader.onload = () => {
-      this.importFileData = reader.result;
-      console.log(this.importFileData)
-    };
-    reader.readAsText(file);
-    this.showParseButton = true;
-   }
-
    activateParsing() {
      this.parseXML(this.importFileData)
+   }
+
+   showParsing () {
+    this.showParseButton = true;
    }
 
 }

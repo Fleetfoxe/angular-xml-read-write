@@ -1,19 +1,66 @@
 <a name="readme-top"></a>
 
-# AngularXmlReadWrite - An app to import XML data, parse it and save it to a file
+# Angular Xml Read/Write - An app to import XML data, parse it and save it to a file
 
-This project was generated with [Angular CLI] version 14.1.0 and updated to Angular version 16.2.1.
 
 
 ### Built With
 
-This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
+* Node (version )
+* [![Angular][Angular.io]][Angular-url] 
 
-* [![Angular][Angular.io]][Angular-url]
+This project was generated with [Angular CLI] version 14.1.0 and updated to Angular version 16.2.1.
+
+
+
+
+
+## Getting Started
+
+To get a local copy up and running follow these simple example steps.
+
+### Prerequisites
+
+This is an example of how to list things you need to use the software and how to install them.
+
+* npm
+  ```sh
+  npm install npm@latest -g
+  ```
+* Angular
+  ```sh
+  npm install -g @angular/cli
+  ```
+
+### Installation
+
+
+1. Clone the repo
+   ```sh
+   git clone https://github.com/Fleetfoxe/angular-xml-read-write
+   ```
+2. Install NPM packages
+   ```sh
+   npm install
+   ```
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+
+## Contact
+
+Peter Åkesson - p.akesson@gmail.com
+
+Project Link: [https://github.com/Fleetfoxe/angular-xml-read-write](https://github.com/Fleetfoxe/angular-xml-read-write)
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+
+
+<!-- MARKDOWN LINKS & IMAGES -->
+<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [Angular.io]: https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white
 [Angular-url]: https://angular.io/
 

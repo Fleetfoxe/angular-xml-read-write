@@ -1,12 +1,22 @@
 <a name="readme-top"></a>
 
-# Angular Xml Read/Write - An app to import XML data, parse it and save it to a file
+<br />
+<div align="center">
+
+  <h3 align="center">Xml Read/Write</h3>
+
+  <p align="center">
+    An awesome app that imports XML data, parses it and saves it to a file!
+    <br />
+  </p>
+</div>
+
 
 
 
 ### Built With
 
-* Node (version v18.17.1)
+* [Node -version v18.17.1][Node-url]
 * [![Angular][Angular.io]][Angular-url]
 * Xml2js 
 
@@ -19,7 +29,6 @@ To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
 
 * npm
   ```sh
@@ -61,5 +70,6 @@ Project Link: [https://github.com/Fleetfoxe/angular-xml-read-write](https://gith
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [Angular.io]: https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white
 [Angular-url]: https://angular.io/
+[Node-url]: https://nodejs.org/en
 
 

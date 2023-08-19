@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
 import * as xml2js from 'xml2js';
 import { DomSanitizer } from '@angular/platform-browser';
 
@@ -19,7 +18,7 @@ export class AppComponent {
   showParseButton: boolean = false;
   parserSearchId: number = 42007;
 
-  constructor(private http:HttpClient, private sanitizer: DomSanitizer) { }
+  constructor( private sanitizer: DomSanitizer) { }
 
 
   selectFile(event:any) {

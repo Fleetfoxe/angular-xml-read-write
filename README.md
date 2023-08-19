@@ -6,13 +6,11 @@
 
 ### Built With
 
-* Node (version )
-* [![Angular][Angular.io]][Angular-url] 
+* Node (version v18.17.1)
+* [![Angular][Angular.io]][Angular-url]
+* Xml2js 
 
 This project was generated with [Angular CLI] version 14.1.0 and updated to Angular version 16.2.1.
-
-
-
 
 
 ## Getting Started

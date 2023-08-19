@@ -1,0 +1,31 @@
+<body>
+
+
+
+<h2>Trans-units</h2>
+
+<input type="file" (change)="selectFile($event)" accept=".xml">
+
+<br>
+<br>
+<button (click)="showParsing()" [disabled]="!importFileData" >Next</button>
+
+<div *ngIf="showParseButton">
+  <p>Enter id for search</p>
+  <input type="text" [(ngModel)]="parserSearchId">
+  <br>
+  <br>
+
+  <button (click)="activateParsing()">Search/Parse</button>
+  <p *ngIf="parserSearchResult">Value: {{ parserSearchResult }}</p>
+</div>
+
+<br>
+<br>
+
+<div *ngIf="showDownloadButton">
+  <p>Save data to file: </p>
+  <a [href]="savedFileUrl" download="Trans-unit-Value.txt"><button>Download to file</button></a>
+</div>
+
+</body>

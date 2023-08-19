@@ -11,12 +11,12 @@
 
 <div *ngIf="showParseButton">
   <p>Enter id for search</p>
-  <input type="text" [(ngModel)]="searchId">
+  <input type="text" [(ngModel)]="parserSearchId">
   <br>
   <br>
 
   <button (click)="activateParsing()">Search/Parse</button>
-  <p *ngIf="targetText">Value: {{ targetText }}</p>
+  <p *ngIf="parserSearchResult">Value: {{ parserSearchResult }}</p>
 </div>
 
 <br>
@@ -24,7 +24,7 @@
 
 <div *ngIf="showDownloadButton">
   <p>Save data to file: </p>
-  <a [href]="savedFileUrl" download="Value.txt"><button>Download to file</button></a>
+  <a [href]="savedFileUrl" download="Trans-unit-Value.txt"><button>Download to file</button></a>
 </div>
 
 

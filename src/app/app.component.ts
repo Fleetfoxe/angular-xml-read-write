@@ -12,12 +12,12 @@ import { DomSanitizer } from '@angular/platform-browser';
 
 
 export class AppComponent {
-  targetText: any;
+  parserSearchResult: any;
   savedFileUrl: any;
   showDownloadButton: boolean = false;
   importFileData: any;
   showParseButton: boolean = false;
-  searchId: number = 42007;
+  parserSearchId: number = 42007;
 
   constructor(private http:HttpClient, private sanitizer: DomSanitizer) { }
 
@@ -40,43 +40,33 @@ export class AppComponent {
       this.importFileData = reader.result;
     };
     reader.readAsText(file);
-    //this.showParseButton = true;
   }
 
-  parseXML = (data: any) => {
-    var parserSearchId = this.searchId;
-    var valueToFind: string;
-    return new Promise(resolve => {
-      var k: string | number,
-        arr :any[] = [],
-        parser = new xml2js.Parser(
-          {
-            trim: true,
-            explicitArray: true
-          });
-      parser.parseString(data, function (err:any, result:any) {
-        const listOfTransunits :[] = result.root.file[0].body[0][`trans-unit`];
-        listOfTransunits.forEach((element) => {
-          const metaData :any = (element[`$`])
-          if (metaData.id == parserSearchId) {
-            valueToFind = element[`target`][0]
-          }
-        });
-        resolve(arr);
+  parseXml(xmlData:any) {
+    const parser = new xml2js.Parser(
+      {
+        trim: true,
       });
-      this.targetText = valueToFind;
+    parser.parseString(xmlData, (err, result) => {
+      const listOfTransunits :[] = result.root.file[0].body[0][`trans-unit`];
+      listOfTransunits.forEach((element) => {
+        const metaData :any = (element[`$`])
+        if (metaData.id == this.parserSearchId) {
+          this.parserSearchResult = element[`target`][0]
+        }
+      });
       this.updateFileData();
       this.showDownloadButton = true;
     });
   }
 
   updateFileData() {
-    const blob = new Blob([this.targetText], { type: 'application/octet-stream' });
+    const blob = new Blob([this.parserSearchResult], { type: 'application/octet-stream' });
     this.savedFileUrl = this.sanitizer.bypassSecurityTrustResourceUrl(window.URL.createObjectURL(blob));
   }
 
    activateParsing() {
-     this.parseXML(this.importFileData)
+     this.parseXml(this.importFileData)
    }
 
    showParsing () {
